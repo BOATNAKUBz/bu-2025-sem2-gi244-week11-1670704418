@@ -1,12 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     public Transform focalPoint;
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
     private Rigidbody rb;
 
     private InputAction moveAction;
@@ -14,9 +17,12 @@ public class PlayerController : MonoBehaviour
     private InputAction breakAction;
 
     public bool hasPowerup = false;
+<<<<<<< Updated upstream
     
 
 
+=======
+>>>>>>> Stashed changes
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -30,6 +36,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         var move = moveAction.ReadValue<Vector2>();
+<<<<<<< Updated upstream
         rb.AddForce(move.y * speed * focalPoint.forward );
         if(breakAction.IsPressed())
         {
@@ -69,6 +76,50 @@ public class PlayerController : MonoBehaviour
     IEnumerator PowerUpCountDown()
     {
         yield return new WaitForSeconds(10f);
+        hasPowerup = false;
+=======
+        rb.AddForce(move.y * speed * focalPoint.forward);
+        if (breakAction.IsInProgress())
+        {
+            rb.linearVelocity = Vector3.zero;
+        }
+>>>>>>> Stashed changes
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (hasPowerup)
+            {
+                Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
+                Vector3 dir = collision.transform.position - transform.position;
+
+
+                enemyRb.AddForce(5 * dir.normalized, ForceMode.Impulse);
+
+                Destroy(collision.gameObject);
+            }
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PowerUp"))
+        {
+            hasPowerup = true;
+            Destroy(other.gameObject);
+
+            if (coundownRoutine != null)
+            {
+                StopCoroutine(coundownRoutine);
+            }
+            coundownRoutine = StartCoroutine(PowerUpCountDown());
+        }
+    }
+
+    private Coroutine coundownRoutine;
+    IEnumerator PowerUpCountDown()
+    {
+        yield return new WaitForSeconds(5);
         hasPowerup = false;
     }
 }

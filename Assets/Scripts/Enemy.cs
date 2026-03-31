@@ -1,26 +1,70 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
     public float speed = 3f;
+
     private Rigidbody rb;
     private GameObject player;
 
+<<<<<<< Updated upstream
 
     
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
+=======
+    private bool isStunned = false;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        player = GameObject.FindWithTag("Player");
+>>>>>>> Stashed changes
     }
 
-    // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
         Vector3 dir = player.transform.position - transform.position;
         dir.Normalize();
         rb.AddForce(dir * speed);
     }
 
 }
+=======
+        if (isStunned) return;
+
+        if (player != null)
+        {
+            Vector3 dir = (player.transform.position - transform.position).normalized;
+            rb.AddForce(dir * speed);
+        }
+        if (transform.position.y < -10)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void Stun(float duration)
+    {
+        StopAllCoroutines(); // กัน stun ซ้อน
+        StartCoroutine(StunCoroutine(duration));
+    }
+
+    IEnumerator StunCoroutine(float duration)
+    {
+        isStunned = true;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        yield return new WaitForSeconds(duration);
+
+        isStunned = false;
+    }
+}
+>>>>>>> Stashed changes
