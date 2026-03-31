@@ -1,14 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
-<<<<<<< Updated upstream
-=======
     public Transform focalPoint;
->>>>>>> Stashed changes
 
     private Rigidbody rb;
 
@@ -16,11 +12,7 @@ public class PlayerController : MonoBehaviour
     private InputAction smashAction;
     private InputAction breakAction;
 
-<<<<<<< Updated upstream
-
-=======
     public bool hasPowerup = false;
->>>>>>> Stashed changes
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -33,11 +25,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
-
-    }
-}
-=======
         var move = moveAction.ReadValue<Vector2>();
         rb.AddForce(move.y * speed * focalPoint.forward);
         if (breakAction.IsInProgress())
@@ -83,4 +70,3 @@ public class PlayerController : MonoBehaviour
         hasPowerup = false;
     }
 }
->>>>>>> Stashed changes
